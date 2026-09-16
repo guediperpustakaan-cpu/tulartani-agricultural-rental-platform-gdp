@@ -1,0 +1,15 @@
+node_modules
+
+# Build outputs & caches
+.next
+out
+build
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Local environment (secrets) - tracked template is .env.example
+.env*
+!.env.example
+
+# Vercel
+.vercel

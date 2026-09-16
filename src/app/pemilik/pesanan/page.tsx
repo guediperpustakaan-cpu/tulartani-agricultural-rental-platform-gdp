@@ -6,6 +6,7 @@ import RequireRole from "@/components/RequireRole";
 import StatusBadge from "@/components/StatusBadge";
 import EmptyState from "@/components/EmptyState";
 import { ListRowSkeleton } from "@/components/LoadingSkeleton";
+import { useAuth } from "@/store/useAuth";
 import { useToast } from "@/store/useToast";
 import { formatDate, formatRupiah, cn } from "@/lib/utils";
 
@@ -24,22 +25,24 @@ interface OrderRow {
 }
 
 export default function OwnerOrdersPage() {
+  const user = useAuth((s) => s.user);
   const toast = useToast((s) => s.push);
   const [orders, setOrders] = useState<OrderRow[] | null>(null);
   const [busyId, setBusyId] = useState<number | null>(null);
 
   const load = useCallback(async () => {
+    if (!user) return;
     try {
-      const res = await fetch("/api/bookings?owner=1");
+      const res = await fetch(`/api/bookings?owner=${user.id}`);
       const data = await res.json();
       setOrders(data.bookings ?? []);
-    } catch {
+      } catch {
       setOrders([]);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    load();
+    Promise.resolve().then(() => load()).catch(() => setOrders([]));
   }, [load]);
 
   async function act(id: number, action: string, successMsg: string) {

@@ -80,7 +80,7 @@ export default function RenterBookingsPage() {
   }, []);
 
   useEffect(() => {
-    load();
+    Promise.resolve().then(() => load()).catch(() => setBookings([]));
   }, [load]);
 
   async function act(id: number, action: string, successMsg: string) {

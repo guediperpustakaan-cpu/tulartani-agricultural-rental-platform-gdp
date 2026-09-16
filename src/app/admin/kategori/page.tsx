@@ -45,7 +45,7 @@ export default function AdminCategoriesPage() {
   }, []);
 
   useEffect(() => {
-    load();
+    Promise.resolve().then(() => load()).catch(() => setCategories([]));
   }, [load]);
 
   async function add(e: React.FormEvent) {

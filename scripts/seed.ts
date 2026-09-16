@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import "dotenv/config";
+import "../src/lib/dotenv";
 import { createHash, randomBytes } from "crypto";
 import { sql } from "drizzle-orm";
 import { db } from "../src/db";

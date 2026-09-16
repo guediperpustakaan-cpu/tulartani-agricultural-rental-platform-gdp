@@ -17,17 +17,23 @@ export default function RequireRole({
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      router.replace("/masuk");
-      return;
-    }
-    if (role && user.role !== role) {
-      router.replace(
-        user.role === "ADMIN" ? "/admin" : user.role === "OWNER" ? "/pemilik" : "/renter/pesanan"
-      );
-      return;
-    }
-    setReady(true);
+    Promise.resolve().then(() => {
+      if (!user) {
+        router.replace("/masuk");
+        return;
+      }
+      if (role && user.role !== role) {
+        router.replace(
+          user.role === "ADMIN"
+            ? "/admin"
+            : user.role === "OWNER"
+            ? "/pemilik"
+            : "/renter/pesanan"
+        );
+        return;
+      }
+      setReady(true);
+    });
   }, [user, role, router]);
 
   if (!ready) {

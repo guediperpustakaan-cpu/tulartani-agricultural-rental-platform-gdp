@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,44 +23,30 @@ export default function CatalogFilters({
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [q, setQ] = useState(current.q ?? "");
-  const [lokasi, setLokasi] = useState(current.lokasi ?? "");
-  const [kategori, setKategori] = useState(current.kategori ?? "");
-  const [min, setMin] = useState(current.min ?? "");
-  const [max, setMax] = useState(current.max ?? "");
-  const [sort, setSort] = useState(current.sort ?? "terbaru");
-
-  const currentRef = useRef(current);
-  currentRef.current = current;
-
-  useEffect(() => setQ(current.q ?? ""), [current.q]);
-  useEffect(() => setLokasi(current.lokasi ?? ""), [current.lokasi]);
-  useEffect(() => setKategori(current.kategori ?? ""), [current.kategori]);
-  useEffect(() => {
-    setMin(current.min ?? "");
-    setMax(current.max ?? "");
-  }, [current.min, current.max]);
-  useEffect(() => setSort(current.sort ?? "terbaru"), [current.sort]);
+  const [q, setQ] = useState(() => current.q ?? "");
+  const [lokasi, setLokasi] = useState(() => current.lokasi ?? "");
+  const [kategori, setKategori] = useState(() => current.kategori ?? "");
+  const [min, setMin] = useState(() => current.min ?? "");
+  const [max, setMax] = useState(() => current.max ?? "");
+  const [sort, setSort] = useState(() => current.sort ?? "terbaru");
 
   function apply(patch: Record<string, string>) {
-    const merged = { ...currentRef.current, ...patch };
+    const merged = { q, lokasi, kategori, sort, min, max, ...patch };
     const params = new URLSearchParams();
     Object.entries(merged).forEach(([k, v]) => {
-      if (v && v.trim()) params.set(k, v.trim());
+      if (v && String(v).trim()) params.set(k, v.trim());
     });
     const qs = params.toString();
     router.replace(qs ? `/katalog?${qs}` : "/katalog");
   }
 
   useEffect(() => {
-    if (q === currentRef.current.q) return;
     const t = setTimeout(() => apply({ q }), 450);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   useEffect(() => {
-    if (lokasi === currentRef.current.lokasi) return;
     const t = setTimeout(() => apply({ lokasi }), 450);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps

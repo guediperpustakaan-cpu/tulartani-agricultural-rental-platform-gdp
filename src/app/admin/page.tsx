@@ -53,7 +53,7 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    load();
+    Promise.resolve().then(() => load()).catch(() => setData(null));
   }, [load]);
 
   async function verifyUser(id: number, verified: boolean) {

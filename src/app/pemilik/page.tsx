@@ -32,7 +32,7 @@ export default function OwnerDashboard() {
     Promise.all([
       fetch("/api/owner/earnings").then((r) => r.json()),
       fetch(`/api/equipment?owner=${user.id}&semua=1`).then((r) => r.json()),
-      fetch("/api/bookings?owner=1").then((r) => r.json()),
+      fetch(`/api/bookings?owner=${user.id}`).then((r) => r.json()),
     ])
       .then(([earnings, eq, bk]) => {
         setData({

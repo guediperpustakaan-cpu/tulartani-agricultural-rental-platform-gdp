@@ -40,7 +40,7 @@ export default function MyEquipmentPage() {
   }, [user]);
 
   useEffect(() => {
-    load();
+    Promise.resolve().then(() => load()).catch(() => setItems([]));
   }, [load]);
 
   async function toggleStatus(item: MyEquipment) {
