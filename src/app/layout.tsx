@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ToastContainer from "@/components/Toast";
+import TrakteerWidget from "@/components/TrakteerWidget";
 
 export const metadata: Metadata = {
   title: "TularTani — Sewa Alat Pertanian Modern",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="min-h-[60vh]">{children}</main>
         <Footer />
         <ToastContainer />
+        <TrakteerWidget />
       </body>
     </html>
   );
